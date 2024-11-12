@@ -13,7 +13,7 @@ function Button({
     register: base + " bg-green-500 text-stone-50 hover:bg-green-600",
     reset: base + " border",
     navigateBack: base + " !pl-0 text-blue-500 hover:text-blue-600",
-    search: "absolute right-2 top-0",
+    search: "absolute right-3 -top-3 !focus:ring-none",
   }
 
   return (
