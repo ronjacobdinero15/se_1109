@@ -1,32 +1,43 @@
+import { useEffect, useState } from "react"
 import { HiMagnifyingGlass, HiMiniPlus } from "react-icons/hi2"
 import { useNavigate } from "react-router-dom"
 import { useSearchQuery } from "../contexts/SearchQueryContext"
 import Button from "./Button"
+import Form from "./Form"
 import Input from "./Input"
-import { useQueryClient } from "@tanstack/react-query"
 
 function NavBar() {
-  const { searchQuery, setSearchQuery } = useSearchQuery()
+  const { setSearchQuery } = useSearchQuery()
+  const [searchInput, setSearchInput] = useState("")
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
+
+  function handleSearch(e) {
+    e.preventDefault()
+
+    setSearchQuery(searchInput)
+  }
+
+  useEffect(() => {
+    if (!searchInput) {
+      setSearchQuery("")
+    }
+  }, [searchInput, setSearchQuery])
 
   return (
     <nav className="flex w-full justify-center">
       <div className="flex gap-10">
-        <div className="relative">
+        <Form onSubmit={handleSearch}>
           <Input
             type="text"
             style="searchNav"
             placeholder="Search doctors"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value)
-              queryClient.invalidateQueries({ queryKey: ["searchResults"] })
-              queryClient.refetchQueries({ queryKey: ["searchResults"] })
-            }}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
-          <HiMagnifyingGlass className="absolute right-2 top-[6px] size-6" />
-        </div>
+          <Button type="submit" style="search">
+            <HiMagnifyingGlass className="size-6" />
+          </Button>
+        </Form>
 
         <Button onClick={() => navigate("/registration")} style="register">
           <span>Create new</span>
