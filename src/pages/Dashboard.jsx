@@ -1,13 +1,14 @@
-import DoctorsTable from "../components/DoctorsTable"
-import NavBar from "../components/NavBar"
+import DoctorsTable from "../features/doctors/DoctorsTable"
+import Main from "../ui/Main"
+import NavBar from "../ui/NavBar"
 
 function Dashboard() {
   return (
-    <div className="mx-auto my-10 space-y-10">
+    <Main>
       <NavBar />
 
       <DoctorsTable />
-    </div>
+    </Main>
   )
 }
 

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
-import { useDeleteDoctor } from "../hooks/useDeleteDoctor"
+import { useDeleteDoctor } from "../features/doctors/useDeleteDoctor"
 
-function Actions({ doctor_id }) {
+function Actions({ doctor_id, username }) {
   const { deleteDoctor } = useDeleteDoctor()
 
   return (
@@ -14,7 +14,7 @@ function Actions({ doctor_id }) {
       </Link>
 
       <button
-        onClick={() => deleteDoctor(doctor_id)}
+        onClick={() => deleteDoctor({ doctor_id, username })}
         className="hover:text-red-500 hover:underline hover:underline-offset-4 focus:rounded-md focus:outline-none focus:ring"
       >
         Delete

@@ -8,10 +8,14 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom"
+import { SearchQueryProvider } from "./contexts/SearchQueryContext"
 import Dashboard from "./pages/Dashboard"
+import History from "./pages/History"
+import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import Update from "./pages/Update"
-import { SearchQueryProvider } from "./contexts/SearchQueryContext"
+import AppLayout from "./ui/AppLayout"
+import ProtectedRoute from "./ui/ProtectedRoute"
 
 function App() {
   const queryClient = new QueryClient()
@@ -25,10 +29,21 @@ function App() {
           future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
         >
           <Routes>
-            <Route index element={<Navigate to="/dashboard" />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/update/:doctor_id" element={<Update />} />
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/dashboard" />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/registration" element={<Registration />} />
+              <Route path="/update/:doctor_id" element={<Update />} />
+              <Route path="/history" element={<History />} />
+            </Route>
+
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Router>
       </SearchQueryProvider>

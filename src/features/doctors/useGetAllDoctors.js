@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getAllDoctors } from "../services/apiDoctors"
+import { getAllDoctors } from "../../services/apiDoctors"
 
 export function useGetAllDoctors() {
   const {

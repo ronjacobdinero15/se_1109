@@ -2,7 +2,7 @@ import { forwardRef } from "react"
 
 const Input = forwardRef(({ style = "regular", ...props }, ref) => {
   const base =
-    "box-border h-10 rounded-md border pl-2 transition-all focus:outline-none focus:ring"
+    "box-border h-10 rounded-md border pl-2 transition-all focus:outline-none focus:ring focus:ring-inset"
 
   const styles = {
     regular: base,

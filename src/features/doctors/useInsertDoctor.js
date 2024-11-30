@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { insertDoctor as insertDoctorApi } from "../services/apiDoctors"
+import { insertDoctor as insertDoctorApi } from "../../services/apiDoctors"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 

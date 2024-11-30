@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import { useNavigate, useParams } from "react-router-dom"
-import { updateDoctor as updateDoctorApi } from "../services/apiDoctors"
+import { updateDoctor as updateDoctorApi } from "../../services/apiDoctors"
 
 export function useUpdateDoctor() {
   const navigate = useNavigate()
@@ -14,15 +14,12 @@ export function useUpdateDoctor() {
     error,
   } = useMutation({
     mutationFn: updateDoctorApi,
-    onSuccess: (data) => {
+    onSettled: (data) => {
       if (data.success === 200) {
         toast.success(data.message)
         queryClient.invalidateQueries({ queryKey: ["doctor", doctor_id] })
         navigate("/dashboard", { replace: true })
-      }
-    },
-    onError: (data) => {
-      if (data.success === 400) {
+      } else {
         toast.error(data.message)
       }
     },

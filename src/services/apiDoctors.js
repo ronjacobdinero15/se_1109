@@ -19,12 +19,16 @@ export async function getDoctorByID(doctor_id) {
 }
 
 export async function insertDoctor({
+  email,
+  username,
+  password,
   first_name,
   last_name,
   years_of_experience,
   specialization,
   contact,
-  email,
+  activeUserId,
+  activeUser,
 }) {
   const res = await fetch(`${apiUrl}?action=insertDoctor`, {
     method: "POST",
@@ -32,12 +36,16 @@ export async function insertDoctor({
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      email,
+      username,
+      password,
       first_name,
       last_name,
       years_of_experience,
       specialization,
       contact,
-      email,
+      activeUserId,
+      activeUser,
     }),
   })
 
@@ -46,14 +54,25 @@ export async function insertDoctor({
   return await res.json()
 }
 
-export async function deleteDoctor(doctor_id) {
+export async function deleteDoctor({
+  doctor_id,
+  username,
+  activeUserId,
+  activeUser,
+}) {
   if (confirm("Are you sure you want to delete this doctor?")) {
-    const res = await fetch(
-      `${apiUrl}?action=deleteDoctor&doctor_id=${doctor_id}`,
-      {
-        method: "DELETE",
+    const res = await fetch(`${apiUrl}?action=deleteDoctor`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
+      body: JSON.stringify({
+        doctor_id,
+        username,
+        activeUserId,
+        activeUser,
+      }),
+    })
 
     if (!res.ok)
       throw new Error(`Could not delete the doctor with ID #${doctor_id}`)
@@ -64,12 +83,15 @@ export async function deleteDoctor(doctor_id) {
 
 export async function updateDoctor({
   doctor_id,
+  email,
+  username,
   first_name,
   last_name,
   years_of_experience,
   specialization,
   contact,
-  email,
+  activeUserId,
+  activeUser,
 }) {
   const res = await fetch(
     `${apiUrl}?action=updateDoctor&doctor_id=${doctor_id}`,
@@ -80,12 +102,15 @@ export async function updateDoctor({
       },
       body: JSON.stringify({
         doctor_id,
+        email,
+        username,
         first_name,
         last_name,
         years_of_experience,
         specialization,
         contact,
-        email,
+        activeUserId,
+        activeUser,
       }),
     },
   )
@@ -96,12 +121,28 @@ export async function updateDoctor({
   return await res.json()
 }
 
-export async function searchDoctor(searchQuery) {
-  const res = await fetch(
-    `${apiUrl}?action=searchDoctor&searchQuery=${searchQuery}`,
-  )
+export async function searchDoctor(searchQuery, activeUserId, activeUser) {
+  const res = await fetch(`${apiUrl}?action=searchDoctor`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      searchQuery,
+      activeUserId,
+      activeUser,
+    }),
+  })
 
-  if (!res.ok) throw new Error("Could fetch search results")
+  if (!res.ok) throw new Error("Could not fetch search results")
+
+  return await res.json()
+}
+
+export async function getActivityLogs() {
+  const res = await fetch(`${apiUrl}?action=getActivityLogs`)
+
+  if (!res.ok) throw new Error("Could not fetch activity logs")
 
   return await res.json()
 }
