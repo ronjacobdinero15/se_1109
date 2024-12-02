@@ -144,15 +144,7 @@ function insertDoctor($pdo, $email, $username, $password, $first_name, $last_nam
     }
 }
 
-function updateDoctor($pdo, $doctor_id, $email, $username, $first_name, $last_name, $years_of_experience, $specialization, $contact, $activeUserId, $activeUser) {
-    $isUserExisting = checkIfUserExists($pdo, $username);
-
-    if($isUserExisting['status'] === 200) {
-        return [
-            "message" => "Username already exists. Choose another."
-        ];
-    }
-    
+function updateDoctor($pdo, $doctor_id, $email, $username, $first_name, $last_name, $years_of_experience, $specialization, $contact, $activeUserId, $activeUser) {  
     $sql = "UPDATE doctors SET email = ?, username = ?, first_name = ?, last_name = ?, years_of_experience = ?, specialization = ?, contact = ? WHERE doctor_id = ?";
     $stmt = $pdo->prepare($sql);
     $executeQuery = $stmt->execute([$email, $username, $first_name, $last_name, $years_of_experience, $specialization, $contact, $doctor_id]);
